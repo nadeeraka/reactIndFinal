@@ -6,12 +6,13 @@ class App extends Component
   constructor(props)
   {
     super(props);
-    this.state = {options:['one','two','three'],
+    this.state = {options:[],
     title:'Indection App',
     subTitle:'shaparing your decitions'
   };
   this.handelReset = this.handelReset.bind(this);
   this.handelButton = this.handelButton.bind(this);
+  this.handelValue = this.handelValue.bind(this);
   }
 
   handelReset()
@@ -23,11 +24,14 @@ class App extends Component
   }
 
   handelButton() {
-    
     let number = Math.floor(Math.random() * this.state.options.length);
     let op = this.state.options[number];
     alert(op);
     
+  }
+  handelValue(value)
+  {
+    this.setState((prv)=>{return{options:prv.options.concat(value)}})
   }
   render()
   {
@@ -36,6 +40,7 @@ class App extends Component
       <Header title={this.state.title} subTitle={this.state.subTitle}/>
       <Action handelButton={this.handelButton} hasOption={this.state.options.length>0}/>
       <AddOption
+      handelValue={this.handelValue}
        options={this.state.options}
        handelReset={this.handelReset}
        />
@@ -74,8 +79,12 @@ class AddOption extends Component
   handelInput(event)
   {
      event.preventDefault();
-     let value = event.target.elements.data.value;
-     console.log(value);
+     let value = event.target.elements.data.value.trim();
+     
+     if(value)
+     {
+       this.props.handelValue(value);
+     }
 ;
   }
   render()
