@@ -10,6 +10,15 @@ class App extends Component
     title:'Indection App',
     subTitle:'shaparing your decitions'
   };
+  this.handelReset = this.handelReset.bind(this);
+  }
+
+  handelReset()
+  {
+     this.setState(()=>
+    {
+      return {options:[]};
+    })
   }
   render()
   {
@@ -17,8 +26,10 @@ class App extends Component
       <div>
       <Header title={this.state.title} subTitle={this.state.subTitle}/>
       <Action options={this.state.options} hasOption={this.state.options.length>0}/>
-      < RemoveOption options = {this.state.options}/>
-      <AddOption options={this.state.options}/>
+      <AddOption
+       options={this.state.options}
+       handelReset={this.handelReset}
+       />
      
       </div>);
   }
@@ -62,15 +73,19 @@ class AddOption extends Component
     super(props);
     this.handelInput = this.handelInput.bind(this);
   }
-  handelInput()
+  handelInput(event)
   {
-
+     event.preventDefault();
+     let value = event.target.elements.data.value;
+     console.log(value);
+;
   }
   render()
   {
-    return(<div> <form onSubmit={this.handleInput}>
-                 <input />
+    return ( < div > < form onSubmit = {this.handelInput} >
+                 <input type='text' name='data'/>
                  <button>Add options</button>
+                 <button onClick={this.props.handelReset}>Reset</button>
                   {this.props.options.map((num)=>{return <AllOPtions key={num} textValue={num} / >})}                 
                   </form>
           </div>)
@@ -85,24 +100,5 @@ class AllOPtions extends Component
            <li>{this.props.textValue}</li>
           </div>)
   }
-}
-class RemoveOption extends Component
-{
-  constructor(props)
-  {
-    super(props);
-    this.handelRemove = this.handelRemove.bind(this);
-
-  }
-  handelRemove()
-  {
-    alert('click');
-  }
- render()
- {
-   return(<div>
-                <button onClick={this.handelRemove}>Reset</button>
-         </div>);
- }
 }
 export default App;
