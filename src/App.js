@@ -11,6 +11,7 @@ class App extends Component
     subTitle:'shaparing your decitions'
   };
   this.handelReset = this.handelReset.bind(this);
+  this.handelButton = this.handelButton.bind(this);
   }
 
   handelReset()
@@ -20,12 +21,20 @@ class App extends Component
       return {options:[]};
     })
   }
+
+  handelButton() {
+    
+    let number = Math.floor(Math.random() * this.state.options.length);
+    let op = this.state.options[number];
+    alert(op);
+    
+  }
   render()
   {
     return(
       <div>
       <Header title={this.state.title} subTitle={this.state.subTitle}/>
-      <Action options={this.state.options} hasOption={this.state.options.length>0}/>
+      <Action handelButton={this.handelButton} hasOption={this.state.options.length>0}/>
       <AddOption
        options={this.state.options}
        handelReset={this.handelReset}
@@ -45,24 +54,13 @@ let Header = (props)=>
 }
 
 class Action extends Component
-{
-  constructor(props)
-  {
-    super(props);
-    this.handelButton = this.handelButton.bind(this);
-  }
-  handelButton()
-  {
-    let number = Math.floor(Math.random()*this.props.options.length);
-    let op = this.props.options[number];
-    alert(op);
-  }
+{  
   render()
   {
     return(<div>
       < button disabled={!this.props.hasOption}
-      onClick={this.handelButton}
-       > What shoud i do < /button>
+      onClick = {this.props.handelButton}
+       > What shoud i do </button>
       </div>)
   }
 }
